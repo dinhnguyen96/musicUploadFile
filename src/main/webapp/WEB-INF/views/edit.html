@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head"></head>
+<body>
+<th:block th:if="${status == 0}">
+    <h3>Add Music</h3>
+</th:block>
+<th:block th:unless="${status == 0}">
+    <h3>Edit Music</h3>
+</th:block>
+<p>
+    <a th:href="@{/music/}">
+        Back to music list
+    </a>
+</p>
+<div id="form">
+    <form th:action="@{/music/updateMusic}" th:object="${musicForm}"
+          enctype="multipart/form-data"  th:method="POST" novalidate="novalidate">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <label>Music Name</label>
+            <input type="text" th:field="*{musicName}"/>
+        </div>
+        <div>
+            <label>Singler Name</label>
+            <input type="email" th:field="*{singlerName}"/>
+        </div>
+        <div>
+            <label>Music Categories</label>
+            <th:block th:if="${status == 0}">
+                <div th:each="cM : ${musicCategories}">
+                    <input type="checkbox" th:name="musicCategoriesName"  th:value="${cM.musicCategoriesName}">
+                    <label th:text="${cM.musicCategoriesName}"></label><br>
+                </div>
+            </th:block>
+            <th:block th:unless="${status == 0}">
+                <div th:each="cM : ${musicCategories}">
+                    <input type="checkbox" th:name="musicCategoriesName"  th:value="${cM.musicCategoriesName}"   th:checked="${musicForm.musicCategory.contains(cM)}">
+                    <label th:text="${cM.musicCategoriesName}"></label><br>
+                </div>
+            </th:block>
+
+        </div>
+        <div>
+            <input type="file" th:field="*{musicMultipart}"/>
+        </div>
+        <th:block th:if="${status == 0}">
+            <input type="submit" value="Add"/>
+        </th:block>
+        <th:block th:unless="${status == 0}">
+            <input type="submit" value="Edit"/>
+        </th:block>
+
+    </form>
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

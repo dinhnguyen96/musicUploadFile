@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Music List</title>
+</head>
+<body>
+<p>
+    <a th:href="@{/music/addMusic}">
+        Add new music
+    </a>
+</p>
+  <h2>Danh sách bài hát</h2>
+  <table id ="music">
+      <thead>
+      <tr>
+          <th>Id</th>
+          <th>Music Name</th>
+          <th>Singler Name</th>
+          <th>Music Url</th>
+          <th>Edit</th>
+          <th>View</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="music : ${musics}">
+          <td th:text="${music.id}"></td>
+          <td th:text="${music.musicName}"></td>
+          <td th:text="${music.singlerName}"></td>
+          <td><a th:href="@{${music.musicUrl}}" th:text="${music.musicUrl}"></a></td>
+          <td><a th:href="@{'/music/show/'+${music.id}}">Edit</a></td>
+          <td><a th:href="@{/music/{id}/view(id=${music.id})}">view</a></td>
+      </tr>
+      </tbody>
+  </table>
+  <footer th:replace="/layout :: footer"></footer>
+
+</body>
+</html>
